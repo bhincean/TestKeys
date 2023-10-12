@@ -1,0 +1,17 @@
+---
+
+ - name: Proof of concept 
+   hosts: localhost
+
+   tasks:
+
+     - name: Download GitHub Files
+       git:
+         repo: git@github.com:bhincean/TestKeys.git
+         dest: /home/hinceanb/git
+         clone: yes
+         update: yes
+         
+         
+
+
