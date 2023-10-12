@@ -1,1 +1,104 @@
-kjbfkbayf
+---
+
+  - name: Proof of concept
+    hosts: localhost
+    become: true
+    gather_facts: true
+
+    pre_tasks:
+      - name: Include the file containing the users to be added
+        include_vars: users.yml
+
+      - name: Include the password protected with the ansible secret
+        include_vars: password.yml
+
+    tasks:
+    #Upgrade all packages
+      - name: Upgrade packages
+        ansible.builtin.dnf:
+        name: "*"
+        state: latest
+    
+    #Ensure NTP is running well
+      - name: Make sure NTP service is running
+        ansible.builtin.systemd:
+        state: started
+        name: systemd-timesyncd
+
+    # Creating users 
+      - name: Crate users using users.yml
+        ansible.buildin.user:
+        name: "{{ item.username }}"
+        shell: /bin/bash
+        create_home: true 
+        group: hinceanb #we need more groups, maybe based on type of server. SSH config should be modified so that it allows certain groups not certain users as it would be easier to be edited
+        append: true
+        force: true # this should only affect users with state that is absent 
+        state: "{{ item.state | default ('present') }}"
+     
+      #Ensuring users have ssh access
+      - name: Set the authorized_keys file for each user
+        ansible.posix.authorized_key:
+          user: "{{ item.username }}"
+          key: "{{ lookup('file', '/home/hinceanb/git/{{item.username}}.pub') }}"
+        when: item.get('state', 'present') == 'present'
+        with_items: "{{ users_list }}"
+
+      #Assigning admin rights to users with state admin
+      - name: Assigning sudo role to admin users
+        copy:
+          content: "{{ item.username }} ALL = (root) NOPASSWD:ALL" #I do not have access to see the structure of the file 
+          dest: "/etc/sudoers.d/{{ item.username }}"
+          mode: 0440
+          owner: root
+          group: root
+        when: item.type is defined and item.type == 'admin' and item.get('state', 'present') == 'present'
+        with_items: "{{ users_list }}"
+
+      #Disable remote login for root
+      - name: Disable remote login for root
+        ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^PermitRootLogin yes'
+        line: 'PermitRootLogin no'
+
+      #Extra things
+
+      #Allow SSH connections
+      - name: UFW - Allow SSH connections
+        community.general.ufw:
+        rule: allow
+        port: 22
+
+      #Brute force protection for SSH
+     - name: Brute-force attempt protection for SSH
+       community.general.ufw:
+       rule: limit
+       port: 22
+       proto: tcp
+
+      #Deny other incoming traffic and enable UFW
+     - name: UFW - Deny other incoming traffic and enable UFW
+       community.general.ufw:
+       state: enabled
+       policy: deny
+       direction: incoming
+
+      #Remove packages no longer required on the server
+     - name: Autoremove unneeded packages installed as dependencies
+       ansible.builtin.dnf:
+       autoremove: yes
+
+      #Restart SSH daemon as we made changes to ssh config
+     - name: Restart the SSH daemon
+       ansible.builtin.systemd:
+       state: restarted
+       name: ssh
+
+      #Reboot hosts
+     - name: Reboot all hosts
+       ansible.builtin.reboot:
+
+        
+        
