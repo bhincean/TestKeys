@@ -35,6 +35,7 @@
           append: true
           force: true # this should only affect users with state that is absent 
           state: "{{ item.state | default ('present') }}"
+        with_items: "{{ users_list }}"
      
       #Ensuring users have ssh access
       - name: Set the authorized_keys file for each user
