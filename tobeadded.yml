@@ -16,25 +16,25 @@
     #Upgrade all packages
       - name: Upgrade packages
         ansible.builtin.dnf:
-        name: "*"
-        state: latest
+          name: "*"
+          state: latest
     
     #Ensure NTP is running well
       - name: Make sure NTP service is running
         ansible.builtin.systemd:
-        state: started
-        name: systemd-timesyncd
+          state: started
+          name: systemd-timesyncd
 
     # Creating users 
       - name: Crate users using users.yml
         ansible.buildin.user:
-        name: "{{ item.username }}"
-        shell: /bin/bash
-        create_home: true 
-        group: hinceanb #we need more groups, maybe based on type of server. SSH config should be modified so that it allows certain groups not certain users as it would be easier to be edited
-        append: true
-        force: true # this should only affect users with state that is absent 
-        state: "{{ item.state | default ('present') }}"
+          name: "{{ item.username }}"
+          shell: /bin/bash
+          create_home: true 
+          group: hinceanb #we need more groups, maybe based on type of server. SSH config should be modified so that it allows certain groups not certain users as it would be easier to be edited
+          append: true
+          force: true # this should only affect users with state that is absent 
+          state: "{{ item.state | default ('present') }}"
      
       #Ensuring users have ssh access
       - name: Set the authorized_keys file for each user
@@ -58,43 +58,43 @@
       #Disable remote login for root
       - name: Disable remote login for root
         ansible.builtin.lineinfile:
-        path: /etc/ssh/sshd_config
-        state: present
-        regexp: '^PermitRootLogin yes'
-        line: 'PermitRootLogin no'
+          path: /etc/ssh/sshd_config
+          state: present
+          regexp: '^PermitRootLogin yes'
+          line: 'PermitRootLogin no'
 
       #Extra things
 
       #Allow SSH connections
       - name: UFW - Allow SSH connections
         community.general.ufw:
-        rule: allow
-        port: 22
+          rule: allow
+          port: 22
 
       #Brute force protection for SSH
      - name: Brute-force attempt protection for SSH
        community.general.ufw:
-       rule: limit
-       port: 22
-       proto: tcp
+         rule: limit
+         port: 22
+         proto: tcp
 
       #Deny other incoming traffic and enable UFW
      - name: UFW - Deny other incoming traffic and enable UFW
        community.general.ufw:
-       state: enabled
-       policy: deny
-       direction: incoming
+         state: enabled
+         policy: deny
+         direction: incoming
 
       #Remove packages no longer required on the server
      - name: Autoremove unneeded packages installed as dependencies
        ansible.builtin.dnf:
-       autoremove: yes
+         autoremove: yes
 
       #Restart SSH daemon as we made changes to ssh config
      - name: Restart the SSH daemon
        ansible.builtin.systemd:
-       state: restarted
-       name: ssh
+         state: restarted
+         name: ssh
 
       #Reboot hosts
      - name: Reboot all hosts
