@@ -27,7 +27,7 @@
 
     # Creating users 
       - name: Crate users using users.yml
-        ansible.buildin.user:
+        ansible.builtin.user:
           name: "{{ item.username }}"
           shell: /bin/bash
           create_home: true 
