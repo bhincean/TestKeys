@@ -1,0 +1,11 @@
+---
+
+   - hosts: localhost
+     become: yes
+
+     tasks:
+      - name: Install dependencies for GitHub
+        yum: name={{ item }} state=present
+        with_items:
+         - git-all
+         - python-devel
