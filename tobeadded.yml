@@ -10,7 +10,7 @@
         include_vars: users.yml
 
       - name: Include the password protected with the ansible secret
-        include_vars: password.yml
+        include_vars: secret.yml
 
     tasks:
     #Upgrade all packages
@@ -57,49 +57,49 @@
         with_items: "{{ users_list }}"
 
       #Disable remote login for root
-      - name: Disable remote login for root
-        ansible.builtin.lineinfile:
-          path: /etc/ssh/sshd_config
-          state: present
-          regexp: '^PermitRootLogin yes'
-          line: 'PermitRootLogin no'
+      # - name: Disable remote login for root
+      #  ansible.builtin.lineinfile:
+      #    path: /etc/ssh/sshd_config
+      #    state: present
+      #    regexp: '^PermitRootLogin yes'
+      #    line: 'PermitRootLogin no'
 
       #Extra things
 
       #Allow SSH connections
-      - name: UFW - Allow SSH connections
-        community.general.ufw:
-          rule: allow
-          port: 22
+      #- name: UFW - Allow SSH connections
+      #  community.general.ufw:
+      #    rule: allow
+      #    port: 22
 
       #Brute force protection for SSH
-     - name: Brute-force attempt protection for SSH
-       community.general.ufw:
-         rule: limit
-         port: 22
-         proto: tcp
+      #- name: Brute-force attempt protection for SSH
+      # community.general.ufw:
+      #   rule: limit
+      #   port: 22
+      #   proto: tcp
 
       #Deny other incoming traffic and enable UFW
-     - name: UFW - Deny other incoming traffic and enable UFW
-       community.general.ufw:
-         state: enabled
-         policy: deny
-         direction: incoming
+      # - name: UFW - Deny other incoming traffic and enable UFW
+      # community.general.ufw:
+      #   state: enabled
+      #   policy: deny
+      #   direction: incoming
 
       #Remove packages no longer required on the server
-     - name: Autoremove unneeded packages installed as dependencies
-       ansible.builtin.dnf:
-         autoremove: yes
+      #- name: Autoremove unneeded packages installed as dependencies
+      # ansible.builtin.dnf:
+      #   autoremove: yes
 
       #Restart SSH daemon as we made changes to ssh config
-     - name: Restart the SSH daemon
-       ansible.builtin.systemd:
-         state: restarted
-         name: ssh
+      #- name: Restart the SSH daemon
+      # ansible.builtin.systemd:
+      #   state: restarted
+      #   name: ssh
 
       #Reboot hosts
-     - name: Reboot all hosts
-       ansible.builtin.reboot:
+      #- name: Reboot all hosts
+      # ansible.builtin.reboot:
 
         
         
