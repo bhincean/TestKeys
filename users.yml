@@ -1,0 +1,7 @@
+users_list:
+  - username: testuser
+    type: admin
+    state: present
+  - username: testuser1
+    type: normal
+    state: present
