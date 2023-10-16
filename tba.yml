@@ -21,7 +21,7 @@
     
     #Ensure NTP is running well
     #  - name: Make sure NTP service is running
-    #     ansible.builtin.systemd:
+    #    ansible.builtin.systemd:
     #      state: started
     #      name: systemd-timesyncd
 
@@ -37,7 +37,7 @@
           state: "{{ item.state | default ('present') }}"
           password: "{{ password | password_hash('sha512', password_salt) }}"
           update_password: on_create
-          # password_expire_max: 1
+          # password_expire_max: 1 
         with_items: "{{ users_list }}"
      
       #Ensuring users have ssh access

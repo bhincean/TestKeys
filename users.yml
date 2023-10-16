@@ -1,7 +1,7 @@
 users_list:
   - username: testuser
     type: admin
-    state: present
+    state: absent
   - username: testuser1
     type: normal
-    state: present
+    state: absent
