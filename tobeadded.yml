@@ -48,7 +48,7 @@
       #Assigning admin rights to users with state admin
       - name: Assigning sudo role to admin users
         copy:
-          content: "{{ item.username }} ALL = (root) NOPASSWD:ALL" #I do not have access to see the structure of the file 
+          content: "{{ item.username }} ALL = (ALL)" #I do not have access to see the structure of the file 
           dest: "/etc/sudoers.d/{{ item.username }}"
           mode: 0440
           owner: root
