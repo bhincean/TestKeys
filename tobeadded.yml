@@ -91,26 +91,6 @@
 
       #Extra things
 
-      #Allow SSH connections
-      #- name: UFW - Allow SSH connections
-      #  community.general.ufw:
-      #    rule: allow
-      #    port: 22
-
-      #Brute force protection for SSH
-      #- name: Brute-force attempt protection for SSH
-      # community.general.ufw:
-      #   rule: limit
-      #   port: 22
-      #   proto: tcp
-
-      #Deny other incoming traffic and enable UFW
-      # - name: UFW - Deny other incoming traffic and enable UFW
-      # community.general.ufw:
-      #   state: enabled
-      #   policy: deny
-      #   direction: incoming
-
       #Remove packages no longer required on the server
       #- name: Autoremove unneeded packages installed as dependencies
       # ansible.builtin.dnf:
