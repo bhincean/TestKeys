@@ -14,10 +14,10 @@
 
     tasks:
     #Upgrade all packages
-      - name: Upgrade packages
-        ansible.builtin.dnf:
-          name: "*"
-          state: latest
+    #  - name: Upgrade packages
+    #    ansible.builtin.dnf:
+    #      name: "*"
+    #      state: latest
     
     #Ensure NTP is running well
     #  - name: Make sure NTP service is running
@@ -31,7 +31,7 @@
           name: "{{ item.username }}"
           shell: /bin/bash
           create_home: true 
-          group: hinceanb #we need more groups, maybe based on type of server. SSH config should be modified so that it allows certain groups not certain users as it would be easier to be edited
+          group: wheel #we need more groups, maybe based on type of server. SSH config should be modified so that it allows certain groups not certain users as it would be easier to be edited
           append: true
           force: true # this should only affect users with state that is absent 
           state: "{{ item.state | default ('present') }}"
