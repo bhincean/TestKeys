@@ -26,7 +26,7 @@
     #      name: systemd-timesyncd
 
     # Creating admin users
-      - name: Crate users with state=admin in users.yml
+      - name: Crate users with type admin in users.yml
         ansible.builtin.user:
           name: "{{ item.username }}"
           shell: /bin/bash
@@ -40,7 +40,7 @@
         when: item.type is defined and item.type == 'admin' 
         with_items: "{{ users_list }}"
 
-    #Assigning admin rights to users with state=admin
+    #Assigning admin rights to users with type admin
       - name: Assigning sudo role to admin users
         copy:
           content: "{{ item.username }} ALL=(ALL) ALL" 
@@ -52,7 +52,7 @@
         with_items: "{{ users_list }}"
 
       # Creating noraml users, they will only be able to connect via ssh 
-      - name: Crate users with state=noraml using users.yml
+      - name: Crate users with type normal in users.yml
         ansible.builtin.user:
           name: "{{ item.username }}"
           shell: /bin/bash
@@ -64,8 +64,8 @@
         when: item.type is defined and item.type == 'normal' 
         with_items: "{{ users_list }}"
 
-      #Ensuring users have ssh access
-      - name: Set the authorized_keys file for each user (normal/admin)
+      #Ensuring all users have SSH access
+      - name: Set the authorized_keys file for each user in users.yml
         ansible.posix.authorized_key:
           user: "{{ item.username }}"
           key: "{{ lookup('file', '/home/hinceanb/git/{{item.username}}.pub') }}"
