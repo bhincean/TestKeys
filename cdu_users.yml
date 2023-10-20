@@ -37,7 +37,7 @@
           state: "{{ item.state | default ('present') }}"
           password: "{{ password | password_hash('sha512', password_salt) }}"
           update_password: on_create
-        when: item.type is defined and item.type == 'admin' and item.get('state', 'present') == 'present'
+        when: item.type is defined and item.type == 'admin' 
         with_items: "{{ users_list }}"
 
     #Assigning admin rights to users with state=admin
@@ -57,11 +57,11 @@
           name: "{{ item.username }}"
           shell: /bin/bash
           create_home: true 
-          group: hinceanb 
+          group: "{{ item.username }}"
           append: true
           force: true # this should only affect users with state that is absent 
           state: "{{ item.state | default ('present') }}"
-        when: item.type is defined and item.type == 'normal' and item.get('state', 'present') == 'present'
+        when: item.type is defined and item.type == 'normal' 
         with_items: "{{ users_list }}"
 
       #Ensuring users have ssh access
@@ -90,8 +90,6 @@
         when: item.get('state', 'absent') == 'absent'
         with_items: "{{ users_list }}"
         
-     #Removing absent users from /etc/shadow
-     
       - debug:
           var: out_home
           var: out_sudo
