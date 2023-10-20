@@ -1,0 +1,123 @@
+---
+
+  - name: Create or delete users based on their state
+    hosts: localhost
+    become: true
+    gather_facts: true
+
+    pre_tasks:
+      - name: Include the file containing the users to be added
+        include_vars: users.yml
+
+      - name: Include the password protected with the ansible secret
+        include_vars: secret.yml
+
+    tasks:
+    #Upgrade all packages
+    #  - name: Upgrade packages
+    #    ansible.builtin.dnf:
+    #      name: "*"
+    #      state: latest
+    
+    #Ensure NTP is running well
+    #  - name: Make sure NTP service is running
+    #     ansible.builtin.systemd:
+    #      state: started
+    #      name: systemd-timesyncd
+
+    # Creating admin users
+      - name: Crate users with state=admin in users.yml
+        ansible.builtin.user:
+          name: "{{ item.username }}"
+          shell: /bin/bash
+          create_home: true 
+          group: wheel 
+          append: true
+          force: true # this should only affect users with state that is absent 
+          state: "{{ item.state | default ('present') }}"
+          password: "{{ password | password_hash('sha512', password_salt) }}"
+          update_password: on_create
+        when: item.type is defined and item.type == 'admin' and item.get('state', 'present') == 'present'
+        with_items: "{{ users_list }}"
+
+    #Assigning admin rights to users with state=admin
+      - name: Assigning sudo role to admin users
+        copy:
+          content: "{{ item.username }} ALL=(ALL) ALL" 
+          dest: "/etc/sudoers.d/{{ item.username }}"
+          mode: 0440
+          owner: root
+          group: root
+        when: item.type is defined and item.type == 'admin' and item.get('state', 'present') == 'present'
+        with_items: "{{ users_list }}"
+
+      # Creating noraml users, they will only be able to connect via ssh 
+      - name: Crate users with state=noraml using users.yml
+        ansible.builtin.user:
+          name: "{{ item.username }}"
+          shell: /bin/bash
+          create_home: true 
+          group: hinceanb 
+          append: true
+          force: true # this should only affect users with state that is absent 
+          state: "{{ item.state | default ('present') }}"
+        when: item.type is defined and item.type == 'normal' and item.get('state', 'present') == 'present'
+        with_items: "{{ users_list }}"
+
+      #Ensuring users have ssh access
+      - name: Set the authorized_keys file for each user (normal/admin)
+        ansible.posix.authorized_key:
+          user: "{{ item.username }}"
+          key: "{{ lookup('file', '/home/hinceanb/git/{{item.username}}.pub') }}"
+        when: item.get('state', 'present') == 'present'
+        with_items: "{{ users_list }}"
+
+      #Removing home directories of state=absent users
+      - name: Removing home directories for absent users
+        file:
+          path: "/home/{{ item.username }}"
+          state: absent
+        register: out_home
+        when: item.get('state', 'absent') == 'absent'
+        with_items: "{{ users_list }}"
+
+      #Removing sudoers directories of state=absent and admin users
+      - name: Removing sudo directories for absent users 
+        file:
+          path: "/etc/sudoers.d/{{ item.username }}"
+          state: absent
+        register: out_sudo
+        when: item.get('state', 'absent') == 'absent'
+        with_items: "{{ users_list }}"
+
+      - debug:
+          var: out_home
+          var: out_sudo
+
+      #Disable remote login for root
+      # - name: Disable remote login for root
+      #  ansible.builtin.lineinfile:
+      #    path: /etc/ssh/sshd_config
+      #    state: present
+      #    regexp: '^PermitRootLogin yes'
+      #    line: 'PermitRootLogin no'
+
+      #Extra things
+
+      #Remove packages no longer required on the server
+      #- name: Autoremove unneeded packages installed as dependencies
+      # ansible.builtin.dnf:
+      #   autoremove: yes
+
+      #Restart SSH daemon as we made changes to ssh config
+      #- name: Restart the SSH daemon
+      # ansible.builtin.systemd:
+      #   state: restarted
+      #   name: ssh
+
+      #Reboot hosts
+      #- name: Reboot all hosts
+      # ansible.builtin.reboot:
+
+        
+        
