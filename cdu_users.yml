@@ -89,7 +89,9 @@
         register: out_sudo
         when: item.get('state', 'absent') == 'absent'
         with_items: "{{ users_list }}"
-
+        
+     #Removing absent users from /etc/shadow
+     
       - debug:
           var: out_home
           var: out_sudo
