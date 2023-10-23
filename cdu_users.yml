@@ -57,7 +57,7 @@
           name: "{{ item.username }}"
           shell: /bin/bash
           create_home: true 
-          group: hinceanb
+          group: users
           append: true
           force: true # this should only affect users with state that is absent 
           state: "{{ item.state | default ('present') }}"
