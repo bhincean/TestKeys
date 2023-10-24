@@ -4,6 +4,8 @@
     hosts: localhost
     become: true
     gather_facts: true
+    collections:
+      - ansible.posix
 
     pre_tasks:
       - name: Include the file containing the users to be added
