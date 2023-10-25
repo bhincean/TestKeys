@@ -71,7 +71,8 @@
       - name: Set the authorized_keys file for each user in users.yml
         ansible.posix.authorized_key:
           user: "{{ item.username }}"
-          key: "{{ lookup('file', '/var/lib/ol-automation-manager/projects/_8__gitsynch/{{item.username}}.pub') }}"
+          #key: "{{ lookup('file', '/var/lib/ol-automation-manager/projects/_8__gitsynch/{{item.username}}.pub') }}"
+          key: "{{ item.key }}"
         when: item.get('state', 'present') == 'present'
         with_items: "{{ users_list }}"
 
