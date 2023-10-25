@@ -1,9 +1,9 @@
 users_list:
   - username: testuser
     type: admin
-    state: absent
+    state: present
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAbDZ0hEnFq5qWlLnozmt/UWttGUBPqnKgPFR4kb9sGM hinceanb@localhost.localdomain
   - username: testuser1
     type: normal
-    state: absent
+    state: present
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5NEgX9ECTVlQPOGFkzeCY+XVI34KTxfHL69V4DD1k8 expersoft\hinceanb@EWN-230415-002
