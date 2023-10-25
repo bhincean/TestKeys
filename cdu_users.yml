@@ -1,7 +1,7 @@
 ---
 
   - name: Create or delete users based on their state
-    #hosts: 192.168.1.1
+    hosts: 192.168.1.1
     #become: true
     become_user: root
     gather_facts: true
