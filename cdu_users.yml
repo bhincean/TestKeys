@@ -17,8 +17,8 @@
 
       - name: Copy SSH Keys to remote directories
         ansible.builtin.copy:
-          src: /home/hinceanb/git/keys
-          dest: /home/hinceab/git/keys
+          src: /var/lib/ol-automation-manager/projects/_8__gitsynch/keys
+          dest: /var/lib/ol-automation-manager/projects/_8__gitsynch/keys
           force: true
 
 
