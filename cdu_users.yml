@@ -19,6 +19,7 @@
         ansible.builtin.copy:
           src: /home/hinceanb/git/keys
           dest: /home/hinceab/git/keys
+          force: true
 
 
     tasks:
