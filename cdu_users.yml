@@ -15,13 +15,6 @@
       - name: Include the password protected with the ansible secret
         include_vars: secret.yml
 
-     # - name: Copy SSH Keys to remote directories
-     #   ansible.builtin.copy:
-     #     src: /home/hinceanb/git/keys
-     #     dest: /home/hinceanb/git/keys
-     #     force: true
-
-
     tasks:
     #Upgrade all packages
     #  - name: Upgrade packages
