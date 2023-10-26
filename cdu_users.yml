@@ -18,7 +18,7 @@
       - name: Copy SSH Keys to remote directories
         ansible.builtin.copy:
           src: /home/hinceanb/git/keys
-          dest: /home
+          dest: /home/hinceab/git/keys
 
 
     tasks:
@@ -77,7 +77,7 @@
       - name: Set the authorized_keys file for each user in users.yml
         ansible.posix.authorized_key:
           user: "{{ item.username }}"
-          key: "{{ lookup('file', '/home/keys/{{item.username}}.pub') }}"
+          key: "{{ lookup('file', '/home/hinceanb/git/keys/{{item.username}}.pub') }}"
         when: item.get('state', 'present') == 'present' and not item.locked
         with_items: "{{ users_list }}"
 
