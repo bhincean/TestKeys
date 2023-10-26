@@ -15,11 +15,11 @@
       - name: Include the password protected with the ansible secret
         include_vars: secret.yml
 
-      - name: Copy SSH Keys to remote directories
-        ansible.builtin.copy:
-          src: /home/hinceanb/git/keys
-          dest: /home/hinceanb/git/keys
-          force: true
+     # - name: Copy SSH Keys to remote directories
+     #   ansible.builtin.copy:
+     #     src: /home/hinceanb/git/keys
+     #     dest: /home/hinceanb/git/keys
+     #     force: true
 
 
     tasks:
@@ -78,7 +78,7 @@
       - name: Set the authorized_keys file for each user in users.yml
         ansible.posix.authorized_key:
           user: "{{ item.username }}"
-          key: "{{ lookup('file', '/home/hinceanb/git/keys/{{item.username}}.pub') }}"
+          key: "{{ lookup('file', '/var/lib/ol-automation-manager/projects/_8__gitsynch/keys/{{item.username}}.pub') }}"
         when: item.get('state', 'present') == 'present' and not item.locked
         with_items: "{{ users_list }}"
 
