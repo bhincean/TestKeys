@@ -1,9 +1,9 @@
 ---
 
   - name: Create or delete users based on their state
-    hosts: 192.168.1.1
-    #become: true
-    become_user: root
+    hosts: localhost
+    become: true
+    #become_user: root
     gather_facts: true
     collections:
       - ansible.posix
@@ -29,7 +29,7 @@
     #      name: systemd-timesyncd
 
     # Creating admin users
-      - name: Crate users with type admin in users.yml
+      - name: Create users with type admin in users.yml
         ansible.builtin.user:
           name: "{{ item.username }}"
           shell: /bin/bash
@@ -55,7 +55,7 @@
         with_items: "{{ users_list }}"
 
       # Creating noraml users, they will only be able to connect via ssh 
-      - name: Crate users with type normal in users.yml
+      - name: Create users with type normal in users.yml
         ansible.builtin.user:
           name: "{{ item.username }}"
           shell: /bin/bash
@@ -71,9 +71,8 @@
       - name: Set the authorized_keys file for each user in users.yml
         ansible.posix.authorized_key:
           user: "{{ item.username }}"
-          #key: "{{ lookup('file', '/var/lib/ol-automation-manager/projects/_8__gitsynch/{{item.username}}.pub') }}"
-          key: "{{ item.key }}"
-        when: item.get('state', 'present') == 'present'
+          key: "{{ lookup('file', '/home/hinceanb/git/{{item.username}}.pub') }}"
+        when: item.get('state', 'present') == 'present' and not item.locked
         with_items: "{{ users_list }}"
 
       #Removing home directories of state=absent users
@@ -93,10 +92,35 @@
         register: out_sudo
         when: item.get('state', 'absent') == 'absent'
         with_items: "{{ users_list }}"
+
+      #Disable locked admin existing accounts
+      - name: Disable locked admin  accounts
+        command: usermod -L {{ item.username }}
+        register: out_deactivated
+        when: item.locked and item.state == 'present' and item.type == 'admin'
+        with_items: "{{ users_list }}"
+        
+      #Remove ssh keys for locked users
+      - name: Remove authorized_keys file for all locked users
+        file:
+          path: "/home/{{ item.username }}/.ssh/authorized_keys"
+          state: absent
+        register: out_authorized_keys
+        when: item.locked and item.state == 'present'
+        with_items: "{{ users_list }}"
+
+      #Enable locked admin existing accounts
+      - name: Enable locked admin accounts
+        command: usermod -U {{ item.username }}
+        when: not item.locked and item.state == 'present' and item.type == 'admin'
+        with_items: "{{ users_list }}"
+
         
       - debug:
           var: out_home
           var: out_sudo
+          var: out_deactivated
+          var: out_authorized_keys
 
       #Disable remote login for root
       # - name: Disable remote login for root
