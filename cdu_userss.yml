@@ -19,20 +19,20 @@
         ansible.builtin.copy:
           src: /home/hinceanb/git/keys
           dest: /home
-
+          force: true
 
     tasks:
     #Upgrade all packages
-    #  - name: Upgrade packages
-    #    ansible.builtin.dnf:
-    #      name: "*"
-    #      state: latest
+     - name: Upgrade packages
+        ansible.builtin.dnf:
+          name: "*"
+          state: latest
     
     #Ensure NTP is running well
-    #  - name: Make sure NTP service is running
-    #     ansible.builtin.systemd:
-    #      state: started
-    #      name: systemd-timesyncd
+    - name: Make sure NTP service is running
+        ansible.builtin.systemd:
+          state: started
+          name: systemd-timesyncd
 
     # Creating admin users
       - name: Create users with type admin in users.yml
@@ -129,29 +129,29 @@
           var: out_authorized_keys
 
       #Disable remote login for root
-      # - name: Disable remote login for root
-      #  ansible.builtin.lineinfile:
-      #    path: /etc/ssh/sshd_config
-      #    state: present
-      #    regexp: '^PermitRootLogin yes'
-      #    line: 'PermitRootLogin no'
+      - name: Disable remote login for root
+        ansible.builtin.lineinfile:
+          path: /etc/ssh/sshd_config
+          state: present
+          regexp: '^PermitRootLogin yes'
+          line: 'PermitRootLogin no'
 
       #Extra things
 
       #Remove packages no longer required on the server
-      #- name: Autoremove unneeded packages installed as dependencies
-      # ansible.builtin.dnf:
-      #   autoremove: yes
+     - name: Autoremove unneeded packages installed as dependencies
+       ansible.builtin.dnf:
+         autoremove: yes
 
       #Restart SSH daemon as we made changes to ssh config
-      #- name: Restart the SSH daemon
-      # ansible.builtin.systemd:
-      #   state: restarted
-      #   name: ssh
+     - name: Restart the SSH daemon
+       ansible.builtin.systemd:
+         state: restarted
+         name: ssh
 
       #Reboot hosts
-      #- name: Reboot all hosts
-      # ansible.builtin.reboot:
+      - name: Reboot all hosts
+        ansible.builtin.reboot:
 
         
         
