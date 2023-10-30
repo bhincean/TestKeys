@@ -40,7 +40,7 @@
           port: 25
           # This SMTP server does not require authentication, emails will be sent by this:
           from: administrator@ {{ ansible_hostname }}
-          to: item.1.email
+          to: "{{ item.1.email }}"
           #cc: Charlie Root <root@localhost> #Repository administartor should be copied here.
           subject: "Warning: SSH Key Rotation Required"
           body: Hello, this is an automatic email from System {{ ansible_hostname}}. Please generate a new SSH key-pair, following the instruction <link>. Access to the remove machines will be lost in one week. 
