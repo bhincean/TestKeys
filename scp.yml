@@ -1,0 +1,19 @@
+  - name: Create or delete users based on their state
+    hosts: webservers
+    become: true
+    #become_user: root
+    gather_facts: true
+    collections:
+      - ansible.posix
+
+    pre_tasks:
+
+      - name: Copy SSH Keys to remote directories
+        ansible.builtin.copy:
+          src: /var/lib/ol-automation-manager/projects/_8__gitsynch/keys/testuser.pub
+          dest: /home/opc/.ssh/authorized_key
+          owner: opc
+          group: opc
+          mode: 0600
+          force: true
+

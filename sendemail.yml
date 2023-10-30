@@ -1,0 +1,14 @@
+---
+  - name: Sending an email
+    community.general.mail:
+      host: localhost
+      port: 25
+      subject: Ansible-report
+      body: Hello, this is an e-mail. I hope you like it ;-)
+      from: hinceanb@localhost.localhost
+      to: <bogdana.hincean@expersoft.com>
+    #cc: Charlie Root <root@localhost>
+      attach: /home/hinceanb/git/dates/dates.yml 
+      headers: 'Reply-To=john@example.com|X-Special="Something or other"'
+      charset: utf8
+    delegate_to: localhost

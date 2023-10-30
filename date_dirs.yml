@@ -1,0 +1,41 @@
+  - name: Get dirs to check date 
+    hosts: localhost
+    #become: true
+    become_user: root
+    gather_facts: true
+
+
+    pre_tasks:
+      - name: Include the file containing the users to be added
+        include_vars: users.yml
+
+    tasks:
+      - name: make a list of dirs
+        ansible.builtin.stat:
+          path: "keys/{{ item.username }}.pub"
+        with_items: "{{ users_list }}"
+        register: stat_result
+
+      - set_fact:
+          dates: "{{ dates | default([]) + 
+          [{ 'time': item.stat.mtime, 
+          'name': item.stat.path }] }}"
+        with_items: "{{ stat_result.results }}"
+
+      - local_action: copy content={{ dates }} dest=dates/dates.yml
+
+        #| split('\').1 | replace('.pub', '') }} " }
+       
+
+      - name: Display the Dictionary
+        debug: var=list_dates
+      - debug:
+          var: "stat_result.results[{{ item }}].stat.mtime"
+        with_sequence: start=0 end=1
+      - debug:
+          var: "stat_result.results[{{ item }}].stat.path"
+        with_sequence: start=0 end=1
+
+
+
+
