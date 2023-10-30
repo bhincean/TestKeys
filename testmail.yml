@@ -10,6 +10,7 @@
           port: 25
           # username: bogdana.hincean@expersoft.com
           #password: secretpass.yml
+          from: administrator@ {{ ansible_hostname }}
           to: bogdana.hincean@expersoft.com
           subject: Ansible-report
           body: System {{ ansible_hostname}} has been successfully provisioned.
