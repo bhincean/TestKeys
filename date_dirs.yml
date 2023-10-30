@@ -36,11 +36,12 @@
 
       - name: Display keys in dates
         debug:
-          var: item.name
-          #var: item.time + 31556926  #send email here when condition 
-        when:  item.time >= (item.time + 31556926)
-        with_items: "{{ dates }}"
-
+          var: item.1.username #will have to be changed to .email
+        #var: item.time + 31556926  #send email here when condition 
+        when:  item.0.time <= (item.0.time + 31556926) #will need to be reversed, <= for testing purposes
+        #with_items: "{{ dates }}"
+        loop: "{{ dates | zip (users_list) | list }}"
+    
 
 
 
