@@ -34,14 +34,21 @@
         #with_sequence: start=0 end=1
         
 
-      - name: Display keys in dates
-        debug:
-          var: item.1.username #will have to be changed to .email
+      - name: Sending Emails to users whose keys need rotation
+        community.general.mail:
+          host: smtp.expersoft.site
+          port: 25
+          # This SMTP server does not require authentication, emails will be sent by root 
+          to: item.1.email
+          #cc: Charlie Root <root@localhost> #Repository administartor should be copied here.
+          subject: "Warning: SSH Key Rotation Required"
+          body: Hello, this is an automatic email from System {{ ansible_hostname}}. Please generate a new SSH key-pair, following the instruction <link>. Access to the remove machines will be lost in one week. 
+          charset: utf8
+        delegate_to: localhost
+        #debug:
+          #var: item.1.username #will have to be changed to .email
         #var: item.time + 31556926  #send email here when condition 
         when:  item.0.time <= (item.0.time + 31556926) #will need to be reversed, <= for testing purposes
         #with_items: "{{ dates }}"
         loop: "{{ dates | zip (users_list) | list }}"
     
-
-
-
