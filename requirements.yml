@@ -2,3 +2,4 @@
 collections:
   - name: ansible.utils
   - name: ansible.posix
+  - name: ansible.mail
