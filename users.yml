@@ -3,7 +3,9 @@ users_list:
     type: admin
     state: present
     locked: false
+    email: bogdana.hincean@expersoft.com
   - username: testuser1
     type: normal
     state: present
     locked: false
+    email: bogdana.hincean@expersoft.com
