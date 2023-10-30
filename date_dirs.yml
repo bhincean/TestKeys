@@ -38,7 +38,8 @@
         community.general.mail:
           host: smtp.expersoft.site
           port: 25
-          # This SMTP server does not require authentication, emails will be sent by root 
+          # This SMTP server does not require authentication, emails will be sent by this:
+          from: administrator@ {{ ansible_hostname }}
           to: item.1.email
           #cc: Charlie Root <root@localhost> #Repository administartor should be copied here.
           subject: "Warning: SSH Key Rotation Required"
