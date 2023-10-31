@@ -4,8 +4,10 @@ users_list:
     state: present
     locked: false
     email: bogdana.hincean@expersoft.com
+    fullname: test user
   - username: testuser1
     type: normal
     state: present
     locked: false
     email: bogdana.hincean@expersoft.com
+    fullname: test user1
