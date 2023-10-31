@@ -21,7 +21,7 @@
           'name': item.stat.path | replace ('.pub', '')| split ('/') | last }] }}"
         with_items: "{{ stat_result.results }}"
 
-      - local_action: copy content={{ dates }} dest=dates/dates.yml
+      #- local_action: copy content={{ dates }} dest=dates/dates.yml
 
         #| split('\').1 | replace('.pub', '') }} " }
        
@@ -44,9 +44,9 @@
           #cc: Charlie Root <root@localhost> #Repository administartor should be copied here.
           subject: "Warning: SSH Key Rotation Required"
           #body: Hello, this is an automatic email from System {{ ansible_hostname}}. Please generate a new SSH key-pair, following the instruction <link>. Access to the remove machines will be lost in one week. 
-          body: "{{ lookup('file', 'email.html') }}"
+          body: "{{ lookup('file', 'email.oft') }}"
           charset: utf8
-          subtype: html
+          #subtype: html
         delegate_to: localhost
         #debug:
           #var: item.1.username #will have to be changed to .email
