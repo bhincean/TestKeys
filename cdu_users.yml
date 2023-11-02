@@ -71,7 +71,7 @@
         with_items: "{{ users_list }}"
 
       #Ensuring all users have SSH access
-      - name: Handling an exceprion
+      - name: Handling the case in which the public key is missing
         block:
           - name: Set the authorized_keys file for each user in users.yml
             ansible.posix.authorized_key:
@@ -81,7 +81,7 @@
             with_items: "{{ users_list }}"
         rescue: 
           - ansible.builtin.debug:
-              msg: "Ensure public keys of active users are in the repository"
+              msg: "Please ensure that the public keys of all active users are in the repository!"
 
       #Removing home directories of state=absent users
       - name: Removing home directories for absent users
