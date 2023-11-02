@@ -1,9 +1,9 @@
 ---
 
   - name: Create or delete users based on their state
-    hosts: all
-    #become: true
-    become_user: root
+    hosts: localhost
+    become: true
+    # become_user: root
     gather_facts: true
     #We will need to add community.general.mail not sure whether it is community.general or community.mail
     collections:
@@ -71,12 +71,17 @@
         with_items: "{{ users_list }}"
 
       #Ensuring all users have SSH access
-      - name: Set the authorized_keys file for each user in users.yml
-        ansible.posix.authorized_key:
-          user: "{{ item.username }}"
-          key: "{{ lookup('file', 'keys/{{item.username}}.pub') }}"
-        when: item.get('state', 'present') == 'present' and not item.locked
-        with_items: "{{ users_list }}"
+      - name: Handling an exceprion
+        block:
+          - name: Set the authorized_keys file for each user in users.yml
+            ansible.posix.authorized_key:
+              user: "{{ item.username }}"
+              key: "{{ lookup('file', 'keys/{{item.username}}.pub') }}"
+            when: item.get('state', 'present') == 'present' and not item.locked
+            with_items: "{{ users_list }}"
+        rescue: 
+          - ansible.builtin.debug:
+              msg: "Ensure public keys of active users are in the repository"
 
       #Removing home directories of state=absent users
       - name: Removing home directories for absent users

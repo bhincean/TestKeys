@@ -4,10 +4,13 @@ users_list:
     state: present
     locked: false
     email: bogdana.hincean@expersoft.com
-    fullname: test user
   - username: testuser1
+    type: normal
+    state: absent
+    locked: false
+    email: bogdana.hincean@expersoft.com
+  - username: testuser2 # same key as testuser
     type: normal
     state: present
     locked: false
     email: bogdana.hincean@expersoft.com
-    fullname: test user1
