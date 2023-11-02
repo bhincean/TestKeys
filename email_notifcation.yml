@@ -25,8 +25,6 @@
  
 
       - local_action: copy content={{ dates }} dest=dates/dates.yml
-        ignore_errors: yes
-       
 
         #- name: Display the Dictionary
         #debug: var=dates
@@ -68,4 +66,3 @@
         when: item.1.state =='present' and item.0.time <= (item.0.time + 31556926) #will need to be reversed, <= for testing purposes
         #with_items: "{{ dates }}"
         loop: "{{ dates | zip (users_list) | list }}"
-        ignore_errors: yes
