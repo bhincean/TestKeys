@@ -29,19 +29,19 @@
         #- name: Display the Dictionary
         #debug: var=dates
         #
-      - debug:
-          var: stat_result
+        #- debug:
+        #var: stat_result
         #
         #
         #----------------JSON------------------------------
         #
         #
-        # - debug:
-        # var: "stat_result.results[{{ item }}].stat.mtime"
+        #- debug:
+        #var: "stat_result.results[{{ item }}].stat.mtime"
         #with_sequence: start=0 end=2
 
-        # - debug:
-        #  var: "stat_result.results[1].skipped "
+        #- debug:
+        #var: "stat_result.results[1].skipped "
         #with_sequence: start=0 end=2
 
         
