@@ -1,5 +1,8 @@
 ---
+
+    #We will need to add community.general.mail not sure whether it is community.general or community.mail
 collections:
   - name: ansible.utils
   - name: ansible.posix
+  - name: community.general
 
