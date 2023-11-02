@@ -29,8 +29,8 @@
         #- name: Display the Dictionary
         #debug: var=dates
         #
-        # - debug:
-        # var: stat_result
+     - debug:
+         var: stat_result
         #
         #
         #----------------JSON------------------------------
@@ -46,7 +46,7 @@
 
         
 
-      - name: Sending Emails to users whose keys need rotation
+      - name: Sending Emails to state=present users whose keys need rotation
         community.general.mail:
           host: smtp.expersoft.site
           port: 25
