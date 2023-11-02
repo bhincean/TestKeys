@@ -29,8 +29,8 @@
         #- name: Display the Dictionary
         #debug: var=dates
         #
-     - debug:
-         var: stat_result
+      - debug:
+          var: stat_result
         #
         #
         #----------------JSON------------------------------
