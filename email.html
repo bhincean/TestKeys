@@ -7,25 +7,25 @@
                 width: 100%;
             }
             
-            <!-- Flex containers are not recognized by Outlook, if used Outlook will use them with default setting which is COLUMN not ROW-->
+            /* Flex containers are not recognized by Outlook, if used Outlook will use them with default setting which is COLUMN not ROW*/
             .flex-container {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
             }
             
-            <!--Completely ignored by Outlook, to setlle the image sizing we need to use height and width directly inside the img tag-->
+            /*Completely ignored by Outlook, to setlle the image sizing we need to use height and width directly inside the img tag*/
             img {
                 max-width: 100%;
                 height: auto;
             }    
 
-            <!--Media tag is ignored in Outlook-->
+            /*Media tag is ignored in Outlook*/
             @media screen and (max-width: 800px) {
             .hide {display:none;}
             }
             
-            <!--Ignored in Outllok to handle position of elements we used align="left" or "center" inside the div tag-->
+            /*Ignored in Outllok to handle position of elements we used align="left" or "center" inside the div tag*/
             .image {
                 align-items: center;
             }
