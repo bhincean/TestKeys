@@ -5,8 +5,10 @@
     #become: true
     become_user: root
     gather_facts: true
+    #We will need to add community.general.mail not sure whether it is community.general or community.mail
     collections:
       - ansible.posix
+      - community.general
   
 
     pre_tasks:
