@@ -10,7 +10,7 @@
   tasks:
  #Installing tmux package if necessary
     - name: Installing tmux package if not present
-        ansible.builtin.dnf:
-          name: tmux
-          state: present
+      ansible.builtin.dnf:
+        name: tmux
+        state: present
     
