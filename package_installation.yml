@@ -12,9 +12,14 @@
       include_vars: packages.yml
 
   tasks:
-  #Installing tmux package if necessary
-    - name: Installing tmux package if not present
-      ansible.builtin.dnf:
-        name: "{{ item.name }}"
-        state: "{{ item.state }}"
-      with_items: "{{ packages_list }}"
+    - name: Catching exceptions
+      block:
+      #Installing tmux package if necessary
+        - name: Installing tmux package if not present
+          ansible.builtin.dnf:
+            name: "{{ item.name }}"
+            state: "{{ item.state }}"
+          with_items: "{{ packages_list }}"
+      rescue:
+         - ansible.builtin.debug:
+             msg: "Please ensure that the package!"
