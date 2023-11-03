@@ -6,11 +6,15 @@
   gather_facts: true
   collections:
     - ansible.posix
+  
+  pre_tasks:
+    - name: Include the file containing the users to be added
+        include_vars: packages.yml
 
   tasks:
- #Installing tmux package if necessary
+  #Installing tmux package if necessary
     - name: Installing tmux package if not present
       ansible.builtin.dnf:
-        name: tmux
+        name: "{{ item.name }}"
         state: present
-    
+      with_items: "{{ package_list }}"
