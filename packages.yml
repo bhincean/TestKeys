@@ -1,3 +1,4 @@
 packages_list:
   - name: tmux
-    state: absent
+    state: latest
+#state can be absent/present/latest
