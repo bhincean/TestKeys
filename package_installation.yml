@@ -16,5 +16,5 @@
     - name: Installing tmux package if not present
       ansible.builtin.dnf:
         name: "{{ item.name }}"
-        state: present
+        state: "{{ item.state }}"
       with_items: "{{ packages_list }}"
