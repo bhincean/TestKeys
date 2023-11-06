@@ -1,1 +1,119 @@
 ---
+- name: create vm with community.libvirt collection
+  hosts: kvm
+  #These might crash :) 
+  collections:
+    - community.libvirt
+    - community.crypto
+  become: yes
+  #We wmight have to change to become root for OLAM ***to be tested****
+  #become: root 
+
+  vars_files:
+    - defaults.yml
+    - password.yml
+  
+  tasks:
+  # List all existing VMs
+    - name: get list of existing VMs
+      community.libvirt.virt:
+        command: list_vms
+      register: existing_vms
+      changed_when: no
+
+  #Print the list of all existing VMs
+    - name: print list of existing VMs
+      debug:
+        var: existing_vms
+
+  #Authenticate to the Oracle Linux Virtualization Manager. This is replaced by the KVM Machine Credential 
+  #  - name: Login to Ovirt Manager
+  #    ovirt_auth:
+  #      hostname: "{{ olvm_fqdn }}"
+  #      username: "{{ olvm_user }}"
+  #      password: "{{ olvm_password }}"
+  #      ca_file: "{{ olvm_cafile | default(omit) }}"
+  #      insecure: "{{ olvm_insecure | default(true) }}"
+
+ # If VM is not already created, create VM
+    - name: create VM when not exist
+      block:
+       - name: download base image
+         get_url:
+           url: "{{ base_image_url }}"
+           dest: "/tmp/{{ base_image_name }}"
+           checksum: "sha256:{{ base_image_sha }}"
+
+       - name: copy base image to libvirt directory
+         ansible.builtin.copy:
+           dest: "{{ libvirt_pool_dir }}/{{ vm_name }}.qcow"
+           src: "/tmp/{{ base_image_name }}"
+           force: no #If no, the file will only be transferred if the destination does not exist.
+           remote_src: yes 
+           owner: qemu 
+           group: qemu
+           mode: 0660
+         register: copy_results
+
+       - name: create vm meta-data
+         ansible.builtin.template:
+           src: templates/meta-data.j2
+           dest: "~/meta-data"
+         become_user: "{{ username }}"
+
+       - name: read the vm ssh private key
+         slurp:
+           #src: "~/.ssh/id_rsa.pub" #the public key of the vm shoulf be here
+         register: vm_ssh_private_key
+         become_user: "{{ username }}"
+
+       - name: create var for private key
+         ansible.builtin.set_fact:
+           vm_private_key: "{{ vm_ssh_private_key.content | b64decode }}"
+
+       - name: create vm user-data
+         ansible.builtin.template:
+           src: templates/user-data.j2
+           dest: ~/user-data
+        become_user: "{{ username }}"
+      
+       - name: generate iso containing cloud-init configuration
+         shell: |
+           genisoimage -output /tmp/{{ vm_name }}.iso -volid cidata -joliet -rock ~/user-data ~/meta-data
+         become_user: "{{ username }}"
+
+       - name: copy vm iso image to libvirt directory
+         ansible.builtin.copy:
+           dest: "{{ libvirt_pool_dir }}/{{ vm_name }}.iso"
+           src: "/tmp/{{ vm_name }}.iso"
+           force: no
+           remote_src: yes 
+           owner: qemu #should be checked on the manager server 
+           group: qemu #should be checked on the manager server 
+           mode: 0660
+    
+       - name: remove vm iso image from tmp
+         ansible.builtin.file:
+           path: "/tmp/{{ vm_name }}.iso"
+           state: absent
+
+       - name: define the vm
+         community.libvirt.virt:
+           command: define
+           xml: "{{ lookup('template', 'vm-template.xml.j2') }}"
+     when: ( vm_name not in existing_vms.list_vms )
+
+    - name: start the vm
+      community.libvirt.virt:
+        name: "{{ vm_name }}"
+        state: running
+      register: vm_start_results
+      until: "vm_start_results is success"
+      retries: 15
+      delay: 2
+
+    - name: remove the temporary file
+      file:
+        path: "/tmp/{{ base_image_name }}"
+        state: absent
+      when: cleanup_tmp | bool
