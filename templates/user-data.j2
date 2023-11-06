@@ -1,0 +1,8 @@
+#cloud-config
+
+system_info:
+  default_user:
+    name: opc
+             
+ssh_authorized_keys:
+  - {{ vm_private_key }}
