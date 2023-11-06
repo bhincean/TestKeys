@@ -5,6 +5,7 @@ base_image_url: #https://yum.oracle.com/templates/OracleLinux/OL9/u1/x86_64/{{ b
 base_image_sha: #ca655beba34038349827c5ab365df4f7936a7f6226a04d0452bbe4430f4d6658
 libvirt_pool_dir: "/var/lib/libvirt/images"
 vm_name: ol9-dev # we could put here a list of names I guess
+vm_host_name: ol9-dev
 vm_vcpus: 2
 vm_ram_mb: 2048
 vm_net: default
