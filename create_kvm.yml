@@ -88,8 +88,8 @@
            src: "/tmp/{{ vm_name }}.iso"
            force: no
            remote_src: yes 
-           owner: qemu #should be checked on the manager server 
-           group: qemu #should be checked on the manager server 
+           owner: qemu 
+           group: qemu 
            mode: 0660
     
        - name: remove vm iso image from tmp
