@@ -5,6 +5,7 @@
   gather_facts: true
 
   tasks:
-    - debug: Saying hello to Windows Machine
+    - name: Saying hello to Windows Machine
+      debug: 
         msg: "Hello Windows"
       
