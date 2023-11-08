@@ -13,6 +13,9 @@
 - name: Install Telnet and check SQL
   hosts: all
   gather_facts: no
+  community.general.python_requirements_info:
+  dependencies:
+      - pywinrm
 
 
   tasks:
