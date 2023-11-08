@@ -5,9 +5,7 @@ collections:
   - name: ansible.utils
   - name: ansible.posix
   - name: ansible.windows
-community.general.python_requirements_info:
-  dependencies:
-      - pywinrm
+
  
   #- name: community.general
 
