@@ -13,13 +13,12 @@
 - name: Install Telnet and check SQL
   hosts: all
   gather_facts: no
-  community.general.python_requirements_info:
-    dependencies:
-      - pywinrm
-
 
   tasks:
-
+   - name: Check python stuff
+     community.general.python_requirements_info:
+       dependencies:
+         - pywinrm
    - name: Check SQL Server is Installed
      win_service:
        name: MSSQLSERVER
