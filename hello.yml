@@ -13,8 +13,7 @@
 - name: Install Telnet and check SQL
   hosts: all
   gather_facts: no
-  vars:
-    ansible_python_interpreter: /usr/local/lib/python3.6/site-packages/winrm
+
 
   tasks:
 
