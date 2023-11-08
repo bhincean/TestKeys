@@ -4,5 +4,5 @@
    tasks:
      - name: Install python module
        ansible.builtin.pip:
-         name: pywinrm
-         state: present
+         name: setuptolls
+         state: latest
