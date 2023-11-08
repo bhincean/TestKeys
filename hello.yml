@@ -16,7 +16,7 @@
 
   tasks:
    - name: Check python stuff
-     community.general.python_requirements_info:
+     python_requirements_info:
        dependencies:
          - pywinrm
    - name: Check SQL Server is Installed
