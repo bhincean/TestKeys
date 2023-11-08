@@ -1,6 +1,6 @@
 ---
  - name: Install winrm on execution node
-   hosts: 127.0.0.1
+   hosts: all
    tasks:
      - name: Install python module
        ansible.builtin.pip:
