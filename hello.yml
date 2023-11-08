@@ -15,6 +15,8 @@
   gather_facts: no
     
   tasks:
+   - vars:
+       ansible_python_interpreter: /usr/local/lib/python3.6/site-packages/winrm
    - name: Check SQL Server is Installed
      win_service:
        name: MSSQLSERVER
