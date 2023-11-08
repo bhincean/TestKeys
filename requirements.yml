@@ -5,6 +5,6 @@ collections:
   - name: ansible.utils
   - name: ansible.posix
   - name: ansible.windows
-  - name: ansible.winrm
+  - name: ansible.pywinrm
   #- name: community.general
 
