@@ -15,10 +15,6 @@
   gather_facts: no
 
   tasks:
-   - name: Check python stuff
-     python_requirements_info:
-       dependencies:
-         - pywinrm
    - name: Check SQL Server is Installed
      win_service:
        name: MSSQLSERVER
