@@ -4,8 +4,8 @@
 collections:
   - name: ansible.utils
   - name: ansible.posix
-  #- name: ansible.windows
-  - name: ansible.builtin
+  - name: ansible.windows
+  #- name: ansible.builtin
 
  
   #- name: community.general
