@@ -1,27 +1,11 @@
-- name: Create or delete users based on their state
-    hosts: webservers
-    become: true
-    #become_user: root
+- name: Say Hello to all hosts
+    hosts: all
+    #become: true
+    become_user: root
     gather_facts: true
-    collections:
-      - ansible.posix
-
-    pre_tasks:
-      - name: Include the file containing the users to be added
-        include_vars: users.yml
-
-      - name: Include the password protected with the ansible secret
-        include_vars: secret.yml
-
-      - name: Copy SSH Keys to remote directories
-        ansible.builtin.copy:
-          src: /home/hinceanb/git/keys
-          dest: /home
-          force: true
 
     tasks:
-    #Upgrade all packages
-     - name: Upgrade packages
-        ansible.builtin.dnf:
-          name: "*"
-          state: latest
+     - name: Say Hello
+        debug:
+          msg: "Hello World"
+       
