@@ -1,11 +1,10 @@
 - name: Say Hello to all hosts
-    hosts: all
-    #become: true
-    become_user: root
-    gather_facts: true
+  hosts: all
+  become_user: root
+  gather_facts: true
 
-    tasks:
-     - name: Say Hello
-        debug:
-          msg: "Hello World"
+  tasks:
+    - name: Say Hello
+      debug:
+        msg: "Hello World"
        
