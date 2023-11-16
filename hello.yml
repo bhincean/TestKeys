@@ -15,7 +15,7 @@
   gather_facts: no
   #dependencies:
     #galaxy: requirements.yml
-  python: requirements.txt
+  #python: requirements.txt
   vars:
     ansible_python_interpreter: /usr/bin/python3.9
     
