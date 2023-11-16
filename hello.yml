@@ -13,9 +13,9 @@
 - name: Install Telnet and check SQL
   hosts: all
   gather_facts: no
-  dependencies:
-    galaxy: requirements.yml
-    python: requirements.txt
+  #dependencies:
+    #galaxy: requirements.yml
+    #python: requirements.txt
 
   tasks:
    - name: Check SQL Server is Installed
