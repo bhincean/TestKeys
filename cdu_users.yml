@@ -9,8 +9,6 @@
     collections:
       - ansible.posix
      # - community.general
-    python:
-      - pywinrm
   
 
     pre_tasks:
