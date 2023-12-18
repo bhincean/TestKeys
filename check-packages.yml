@@ -1,0 +1,20 @@
+---
+  - name: Check Python Inventory
+    hosts: all
+    # become: true
+    gather_facts: true
+    #We will need to add community.general.mail not sure whether it is community.general or community.mail
+
+
+    tasks:
+    # Copy the required resources
+      - name: Copy the files
+        ansible.builtin.copy:
+          scr: /python
+          dest: /home/hinceanb/python
+          force: true
+      - name: Run pip command and create output file
+        ansible.builtin.command:
+          cmd: "python3 -m pip list --format json >> /home/hinceanb/python/output.json"
+      - name: execute script
+        script: /home/hinceanb/python/check-packages.py
