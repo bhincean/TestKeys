@@ -24,7 +24,7 @@
         ansible.builtin.copy:
           src: /python/check-packages.py
           dest: /home/hinceanb/python-scripts
-          remote_src: true
+          remote_src: false
 
       - name: Print returned information
         ansible.builtin.debug:
