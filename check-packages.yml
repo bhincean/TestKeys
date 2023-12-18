@@ -22,7 +22,7 @@
           dest: "/home/hinceanb/python-scripts/output.json"
       - name: copy the python script
         ansible.builtin.copy:
-          remote_src: false
+          remote_src: true
           src: home/hinceanb/git/python/check-packages.py
           dest: /home/hinceanb/python-scripts
          
