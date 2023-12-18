@@ -1,4 +1,4 @@
----
+o---
   - name: Check Python Inventory
     hosts: all
     # become: true
@@ -10,9 +10,10 @@
     # Copy the required resources
       - name: Copy the files
         ansible.builtin.copy:
-          src:  /python/
+          src:  /python
           dest: /home/hinceanb/python
           force: true
+          remote_src: true
       - name: Run pip command and create output file
         ansible.builtin.command:
           cmd: "python3 -m pip list --format json >> /home/hinceanb/python/output.json"
