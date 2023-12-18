@@ -22,7 +22,7 @@
           dest: "/home/hinceanb/python-scripts/output.json"
       - name: copy the python script
         ansible.builtin.slurp:
-          src: "{{ lookup('file', 'slurpy.txt') }}"
+          src: "{{ lookup('file', 'check-packages.py') }}"
         register: mounts
 
       - name: Print returned information
