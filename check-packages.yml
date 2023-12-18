@@ -24,7 +24,7 @@
       - name: Run the python script
         ansible.builtin.script:
           chdir: /home/hinceanb/python-scripts
-          cmd: /python/check-packages.py
+          cmd: check-packages.py
           executable: python3
         register: python_output
 
