@@ -1,0 +1,14 @@
+---
+  - name: Check Python Inventory
+    hosts: test
+    #become: true
+    gather_facts: true
+
+
+    tasks:
+   
+      - name: copy the python script
+        ansible.builtin.copy:
+        #Souce on the control node 
+          src: /home/hinceanb/git/python/check-packages.py
+          dest: /home/hinceanb/python-scripts
