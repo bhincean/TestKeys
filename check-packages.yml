@@ -16,10 +16,6 @@
         ansible.builtin.command:
           cmd: "python3 -m pip list --format json >> /home/hinceanb/python-scripts/output.json"
         register: python_output
-      - name: execute script
-        ansible.builtin.script: 
-          cmd: "{{ lookup('file', 'check-packages.py') }}"
-        register: python_output
 
       - debug:
           msg: python_output
