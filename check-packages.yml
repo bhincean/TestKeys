@@ -23,7 +23,7 @@
       - name: copy the python script
         ansible.builtin.slurp:
           src: "{{ lookup('file', 'slurpy.txt') }}"
-           register: mounts
+        register: mounts
 
       - name: Print returned information
         ansible.builtin.debug:
