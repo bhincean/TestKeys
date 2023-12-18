@@ -28,7 +28,7 @@
           executable: python3
         register: python_output
 
-        debug:
+      - debug:
           msg: "{{ python_output.stdout }}"
          
 
