@@ -14,8 +14,10 @@
           state: directory
       - name: Run pip command and create output file
         ansible.builtin.command:
-          cmd: "python3 -m pip list --format json > output.json"
-        register: python_output
-
-      - debug:
-          msg: python_output
+          shell: "python3 -m pip list --format json"
+        register: myshell_output
+      - name: copy the output to a local file
+        copy:
+          content: "{{ myshell_output.stdout }}"
+          dest: "/home/hinceanb/python-scripts/output.json"
+  
