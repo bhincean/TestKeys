@@ -8,13 +8,10 @@
 
     tasks:
     # Copy the required resources
-      - name: Copy the files
-        synchronize:
-          src:  "{{ lookup('file', '/python/check-packages.py') }}"
-          dest: /home/hinceanb/python
-          mode: pull
+      - name: Create a directory
+          cmd: "mkdir python-scripts"
       - name: Run pip command and create output file
         ansible.builtin.command:
-          cmd: "python3 -m pip list --format json >> /home/hinceanb/python/output.json"
+          cmd: "python3 -m pip list --format json >> /python-scripts/output.json"
       - name: execute script
-        script: /home/hinceanb/python/check-packages.py
+        script: check-packages.py
