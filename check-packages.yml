@@ -1,4 +1,4 @@
-o---
+---
   - name: Check Python Inventory
     hosts: all
     # become: true
