@@ -24,7 +24,6 @@
         ansible.builtin.copy:
           src: python/check-packages.py
           dest: /home/hinceanb/python-scripts
-
         register: python_output
 
       - debug:
