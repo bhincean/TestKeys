@@ -20,12 +20,11 @@
         copy:
           content: "{{ myshell_output.stdout }}"
           dest: "/home/hinceanb/python-scripts/output.json"
-     
-      - name: Run the python script
-        ansible.builtin.script:
-          chdir: /home/hinceanb/python-scripts
-          cmd: python/check-packages.py
-          executable: python3
+     -  name: copy the python script
+        ansible.builtin.copy:
+          src: python/check-packages.py
+          dest: /home/hinceanb/python-scripts
+
         register: python_output
 
       - debug:
