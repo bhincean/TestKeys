@@ -26,6 +26,7 @@
           dest: /home/hinceanb/python-scripts
       - name: Run the python script
         ansible.builtin.script:
+          chdir: /home/hinceanb/python/scripts
           cmd: /home/hinceanb/git/python/check-packages.py
           executable: python3
           
