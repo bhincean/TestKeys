@@ -13,7 +13,6 @@
           src:  "{{ lookup('file', '/python/check-packages.py') }}"
           dest: /home/hinceanb/python
           force: true
-          remote_src: true
       - name: Run pip command and create output file
         ansible.builtin.command:
           cmd: "python3 -m pip list --format json >> /home/hinceanb/python/output.json"
