@@ -44,9 +44,9 @@
           msg: "{{ python_output.stdout }}"
 
     # Remove the directory you created
-     ## - name: Remove the whole directory
-      ##  ansible.builtin.file:
-       ##   path: /home/hinceanb/python-scripts
-       ##   state: absent
+      - name: Remove the whole directory
+        ansible.builtin.file:
+          path: /home/hinceanb/python-scripts
+          state: absent
 
          
