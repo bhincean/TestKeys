@@ -6,7 +6,7 @@ malware=[]
 
 ##data=read_csv("pkgs.csv", delimiter=',')
 
-with open('mal.json', mode='r') as f1:
+with open('malware_list.json', mode='r') as f1:
     malware_dict=json.load(f1)
 
 ##for (i, j) in malware_dict:
