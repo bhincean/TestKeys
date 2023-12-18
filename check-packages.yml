@@ -26,7 +26,5 @@
           dest: /home/hinceanb/python-scripts
          
 
-      - name: Print returned information
-        ansible.builtin.debug:
-          msg: "{{ mounts['content'] | b64decode }}"
+      
   
