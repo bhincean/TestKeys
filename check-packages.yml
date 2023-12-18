@@ -1,3 +1,4 @@
+
 ---
   - name: Check Python Inventory
     hosts: all
@@ -7,28 +8,38 @@
 
 
     tasks:
-    # Copy the required resources
+    # Create a directory
       - name: Create a directory
         ansible.builtin.file:
           path: /home/hinceanb/python-scripts
           state: directory
+          
+    # Register the output of the pip command and copy it to a local file
       - name: Run pip command and create output file
         ansible.builtin.command:
           cmd: "python3 -m pip list --format json"
         register: myshell_output
+ 
       - name: copy the output to a local file
         copy:
           content: "{{ myshell_output.stdout }}"
           dest: "/home/hinceanb/python-scripts/output.json"
-      - name: copy the python script
-        ansible.builtin.copy:
-          src: check-packages.py
-          dest: /home/hinceanb/python-scripts
+          
+    # Run the script, this command will copy the script to the remote machine
+      - name: Run the python script
+        ansible.builtin.script:
+          chdir: /home/hinceanb/python-scripts
+          cmd: python/check-packages.py
+          executable: python3
         register: python_output
 
       - debug:
           msg: "{{ python_output.stdout }}"
-         
 
-      
-  
+    # Remove the directory you created
+      - name: Remove the whole directory
+        ansible.builtin.file:
+          path: /home/hinceanb/python-scripts
+          state: absent
+
+         
