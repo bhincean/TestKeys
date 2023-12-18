@@ -20,4 +20,12 @@
         copy:
           content: "{{ myshell_output.stdout }}"
           dest: "/home/hinceanb/python-scripts/output.json"
+      - name: copy the python script
+        ansible.builtin.slurp:
+          src: check-packages.py
+        register: mounts
+
+      - name: Print returned information
+        ansible.builtin.debug:
+          msg: "{{ mounts['content'] | b64decode }}"
   
