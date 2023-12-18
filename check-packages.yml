@@ -9,8 +9,9 @@
     tasks:
     # Copy the required resources
       - name: Create a directory
-        ansible.builtin.command:
-          cmd: "mkdir python-scripts"
+        ansible.builtin.file:
+          path: /home/hinceanb/python-scripts
+          state: directory
       - name: Run pip command and create output file
         ansible.builtin.command:
           cmd: "python3 -m pip list --format json >> /home/hinceanb/python-scripts/output.json"
