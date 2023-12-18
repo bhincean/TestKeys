@@ -10,7 +10,7 @@
     # Copy the required resources
       - name: Copy the files
         ansible.builtin.copy:
-          src:  /python/check-packages.py
+          src:  "{{ lookup('file', '/python/check-packages.py') }}"
           dest: /home/hinceanb/python
           force: true
           remote_src: true
