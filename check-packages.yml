@@ -9,10 +9,10 @@
     tasks:
     # Copy the required resources
       - name: Copy the files
-        ansible.builtin.copy:
+        synchronize:
           src:  "{{ lookup('file', '/python/check-packages.py') }}"
           dest: /home/hinceanb/python
-          force: true
+          mode: pull
       - name: Run pip command and create output file
         ansible.builtin.command:
           cmd: "python3 -m pip list --format json >> /home/hinceanb/python/output.json"
