@@ -1,6 +1,6 @@
 ---
   - name: Check Python Inventory
-    hosts: test
+    hosts: all
     #become: true
     gather_facts: true
     #We will need to add community.general.mail not sure whether it is community.general or community.mail
@@ -24,7 +24,7 @@
       - name: Run the python script
         ansible.builtin.script:
           chdir: /home/hinceanb/python-scripts
-          cmd: /home/hinceanb/git/python/check-packages.py
+          cmd: /python/check-packages.py
           executable: python3
         register: python_output
 
