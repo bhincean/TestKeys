@@ -24,6 +24,11 @@
         ansible.builtin.copy:
           src: /home/hinceanb/git/python/check-packages.py
           dest: /home/hinceanb/python-scripts
+      - name: Run the python script
+        ansible.builtin.script:
+          cmd: /home/hinceanb/python-scripts/check-packages.py
+          executable: python3
+          
          
 
       
