@@ -20,7 +20,7 @@
         copy:
           content: "{{ myshell_output.stdout }}"
           dest: "/home/hinceanb/python-scripts/output.json"
-     -  name: copy the python script
+      - name: copy the python script
         ansible.builtin.copy:
           src: check-packages.py
           dest: /home/hinceanb/python-scripts
