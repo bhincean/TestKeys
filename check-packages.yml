@@ -21,7 +21,7 @@
           content: "{{ myshell_output.stdout }}"
           dest: "/home/hinceanb/python-scripts/output.json"
       - name: copy the python script
-        ansible.builtin.fetch:
+        ansible.builtin.slurp:
           src: "{{ lookup('file', 'slurpy.txt') }}"
           dest: /home/hinceanb/python-scripts/
         delegate_to: 192.168.56.110
