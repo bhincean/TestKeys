@@ -25,6 +25,13 @@
           content: "{{ myshell_output.stdout }}"
           dest: "/home/hinceanb/python-scripts/output.json"
           
+    # Copy the malware list to the remote machine
+      - name: Copy a file 
+        ansible.builtin.copy:
+          src: python/malware_list.json
+          dest: /home/hinceanb/python-scripts/
+
+          
     # Run the script, this command will copy the script to the remote machine
       - name: Run the python script
         ansible.builtin.script:
