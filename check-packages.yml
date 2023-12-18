@@ -24,6 +24,7 @@
         ansible.builtin.fetch:
           src: "{{ lookup('file', 'slurpy.txt') }}"
           dest: /home/hinceanb/python-scripts/
+        delegate_to: localhost
         register: mounts
 
       - name: Print returned information
