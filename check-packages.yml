@@ -22,8 +22,9 @@
           dest: "/home/hinceanb/python-scripts/output.json"
       - name: copy the python script
         ansible.builtin.fetch:
-          src: /python/check-packages.py
+          src: check-packages.py
           dest: /home/hinceanb/python-scripts/
+          flat: yes
         register: mounts
 
       - name: Print returned information
