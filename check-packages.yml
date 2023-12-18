@@ -23,9 +23,7 @@
       - name: copy the python script
         ansible.builtin.slurp:
           src: "{{ lookup('file', 'slurpy.txt') }}"
-          dest: /home/hinceanb/python-scripts/
-        delegate_to: 192.168.56.110
-        register: mounts
+           register: mounts
 
       - name: Print returned information
         ansible.builtin.debug:
