@@ -1,6 +1,6 @@
 ---
   - name: Check Python Inventory
-    hosts: 192.168.56.110
+    hosts: test
     #become: true
     gather_facts: true
     #We will need to add community.general.mail not sure whether it is community.general or community.mail
