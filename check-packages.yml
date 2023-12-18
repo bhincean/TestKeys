@@ -10,7 +10,7 @@
     # Copy the required resources
       - name: Copy the files
         ansible.builtin.copy:
-          src: /python
+          src:  /python/
           dest: /home/hinceanb/python
           force: true
       - name: Run pip command and create output file
