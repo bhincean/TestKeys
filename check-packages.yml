@@ -9,6 +9,7 @@
     tasks:
     # Copy the required resources
       - name: Create a directory
+        ansible.builtin.command:
           cmd: "mkdir python-scripts"
       - name: Run pip command and create output file
         ansible.builtin.command:
