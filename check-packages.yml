@@ -1,7 +1,7 @@
 ---
   - name: Check Python Inventory
     hosts: all
-    # become: true
+    become: true
     gather_facts: true
     #We will need to add community.general.mail not sure whether it is community.general or community.mail
 
