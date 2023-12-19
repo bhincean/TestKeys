@@ -11,7 +11,7 @@
     # Create a directory
       - name: Create a directory
         ansible.builtin.file:
-          path: /home/hinceanb/python-scripts
+          path: /home/python-scripts
           state: directory
           
     # Register the output of the pip command and copy it to a local file
@@ -23,19 +23,19 @@
       - name: copy the output to a local file
         copy:
           content: "{{ myshell_output.stdout }}"
-          dest: "/home/hinceanb/python-scripts/output.json"
+          dest: "/home/python-scripts/output.json"
           
     # Copy the malware list to the remote machine
       - name: Copy a file 
         ansible.builtin.copy:
           src: python/malware_list.json
-          dest: /home/hinceanb/python-scripts/
+          dest: /home/python-scripts/
 
           
     # Run the script, this command will copy the script to the remote machine
       - name: Run the python script
         ansible.builtin.script:
-          chdir: /home/hinceanb/python-scripts
+          chdir: /home/python-scripts
           cmd: python/check-packages.py
           executable: python3
         register: python_output
@@ -46,7 +46,7 @@
     # Remove the directory you created
       - name: Remove the whole directory
         ansible.builtin.file:
-          path: /home/hinceanb/python-scripts
+          path: /home/python-scripts
           state: absent
 
          
