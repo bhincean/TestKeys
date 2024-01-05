@@ -35,7 +35,7 @@
       - name: Create users with type admin in users.yml
         ansible.builtin.user:
           name: "{{ item.username }}"
-          #comment: Ansible created admin user
+          comment: Ansible created admin user
           shell: /bin/bash
           create_home: true 
           group: wheel 
