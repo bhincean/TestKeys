@@ -38,7 +38,7 @@
           #comment: Ansible created admin user
           shell: /bin/bash
           create_home: true 
-          group: gods 
+          groups: gods 
           append: true
           force: true # this should only affect users with state that is absent 
           state: "{{ item.state | default ('present') }}"
@@ -65,7 +65,7 @@
           #comment: Ansible created normal user
           shell: /bin/bash
           create_home: true 
-          group: users
+          groups: users
           append: true
           force: true # this should only affect users with state that is absent 
           state: "{{ item.state | default ('present') }}"
